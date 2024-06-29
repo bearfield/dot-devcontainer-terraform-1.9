@@ -1,0 +1,47 @@
+{
+    "name": "terraform-1.9",
+    "image": "ghcr.io/bearfield/terraform:1.9",
+    "remoteUser": "kumano_ryo",
+    "mounts": [
+        "source=${localEnv:HOME}/devcontainer_conf/.gitconfig_linux,target=/home/kumano_ryo/.gitconfig,type=bind,consistency=cached",
+        "source=${localEnv:HOME}/.config/gcloud,target=/home/kumano_ryo/.config/gcloud,type=bind,consistency=cached"
+    ],
+    "customizations": {
+        "vscode": {
+            "settings": {
+                "terminal.integrated.profiles.linux": {
+                    "fish": {
+                        "path": "fish"
+                    }
+                },
+                "terminal.integrated.fontFamily": "Hack Nerd Font Mono,Source Code Pro for Powerline",
+                "workbench.colorCustomizations": {
+                    "statusBar.background": "#7B42BC",
+                    "statusBar.foreground": "#FFFFFF"
+                },
+                "[terraform]": {
+                    "editor.formatOnSave": true,
+                    "editor.suggest.preview": true,
+                    "editor.defaultFormatter": "hashicorp.terraform",
+                    "editor.formatOnSaveMode": "file"
+                },
+                "[terraform-vars]": {
+                    "editor.defaultFormatter": "hashicorp.terraform",
+                    "editor.formatOnSave": true,
+                    "editor.formatOnSaveMode": "file"
+                },
+                "terraform.codelens.referenceCount": true
+            },
+            "extensions": [
+                "wayou.vscode-todo-highlight",
+                "redhat.vscode-yaml",
+                "timonwong.shellcheck",
+                "foxundermoon.shell-format",
+                "github.copilot",
+                "bmalehorn.vscode-fish",
+                "ms-vscode.makefile-tools",
+                "hashicorp.terraform"
+            ]
+        }
+    }
+}
