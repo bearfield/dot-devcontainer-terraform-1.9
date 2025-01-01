@@ -40,7 +40,8 @@
                 "github.copilot",
                 "bmalehorn.vscode-fish",
                 "ms-vscode.makefile-tools",
-                "hashicorp.terraform"
+                "hashicorp.terraform",
+                "aquasecurityofficial.trivy-vulnerability-scanner"
             ]
         }
     }

@@ -12,6 +12,17 @@ RUN apt-get update \
     && apt-get update \
     && apt-get install -y \
         terraform=$TERRAFORM_VERSION \
+    # install tflint
+    && curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | bash \
+    ## install trivy
+    && apt-get install -y \
+        wget \
+        gnupg \
+    && wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | gpg --dearmor | sudo tee /usr/share/keyrings/trivy.gpg > /dev/null \
+    && echo "deb [signed-by=/usr/share/keyrings/trivy.gpg] https://aquasecurity.github.io/trivy-repo/deb generic main" | sudo tee -a /etc/apt/sources.list.d/trivy.list \
+    && sudo apt-get update \
+    && sudo apt-get install -y \
+        trivy \
     # crean up
     && apt-get autoremove -y \
     && apt-get clean -y \
