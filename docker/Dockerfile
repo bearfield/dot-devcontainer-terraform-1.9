@@ -30,4 +30,4 @@ RUN apt-get update \
 #
 # set env
 ENV DEBIAN_FRONTEND=dialog
-LABEL org.opencontainers.image.source https://github.com/bearfield/dot-devcontainer-terraform-1.9
+LABEL org.opencontainers.image.source="https://github.com/bearfield/dot-devcontainer-terraform-1.9"

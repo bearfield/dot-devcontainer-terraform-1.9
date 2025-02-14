@@ -1,23 +1,33 @@
-DOCKERHUB_REPONAME=ghcr.io/bearfield
+CONTAINER_REPONAME=ghcr.io/bearfield
 CONTAINER_NAME=terraform
-TAG_NAME=test.1.9
+CONTAINER_TAG=test.1.9
 
 MAKEFILE_DIR=$(dir $(realpath $(firstword $(MAKEFILE_LIST))))
 WORK_DIR=$(MAKEFILE_DIR)
-BASE_IMAGE_NAME=ghcr.io/bearfield/debian-fish:bookworm
 
-.PHONY: base-pull
-base-pull:
-	docker pull $(BASE_IMAGE_NAME)
-
-.PHONY:test.build
-test.build: base-pull
+.PHONY:test.build.arm64
+test.build.arm64:
 	cd $(WORK_DIR)
-	docker build --tag=$(DOCKERHUB_REPONAME)/$(CONTAINER_NAME):$(TAG_NAME) ./docker
+	docker buildx build --tag=$(CONTAINER_REPONAME)/$(CONTAINER_NAME):$(CONTAINER_TAG).arm64 ./docker --platform linux/arm64
 
-.PHONY:test.rmi
-test.rmi:
-	docker rmi $(DOCKERHUB_REPONAME)/$(CONTAINER_NAME):$(TAG_NAME)
+.PHONY:test.build.amd64
+test.build.amd64:
+	cd $(WORK_DIR)
+	docker buildx build --tag=$(CONTAINER_REPONAME)/$(CONTAINER_NAME):$(CONTAINER_TAG).amd64 ./docker --platform linux/amd64
+
+.PHONY:test.rmi.arm64
+test.rmi.arm64:
+	docker rmi $(CONTAINER_REPONAME)/$(CONTAINER_NAME):$(CONTAINER_TAG).arm64
+
+.PHONY:test.rmi.amd64
+test.rmi.amd64:
+	docker rmi $(CONTAINER_REPONAME)/$(CONTAINER_NAME):$(CONTAINER_TAG).amd64
+
+.PHONY:test.arm64
+test.arm64: test.build.arm64 test.rmi.arm64
+
+.PHONY:test.amd64
+test.amd64: test.build.amd64 test.rmi.amd64
 
 .PHONY:test
-test: test.build test.rmi
+test: test.arm64 test.amd64
